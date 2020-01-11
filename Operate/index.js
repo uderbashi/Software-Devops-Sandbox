@@ -21,6 +21,7 @@ back.use(express.json());
 
 
 
+
 //*****************//
 //Frontend's socket//
 //*****************//
@@ -29,6 +30,15 @@ var io = socket(frontListener);
 io.on('connection', function(socket){
 	socket.on('undeploy', function(data){
 		undeployPost(data)
+	});
+
+	socket.on('auth', function(data){
+		var authInfo = auth(data);
+		socket.emit('authRes', {
+			token: data.token,
+			success: authInfo.success,
+			role: authInfo.role
+		})
 	});
 });
 
@@ -54,4 +64,16 @@ function undeployPost(jsonData){
 			}
 		}
 	);
+}
+
+
+//*******//
+// Users //
+//*******//
+var users = [{user:'admin', pass:'admin', role:'M'}];
+function auth(data){
+	found = users.find(function(element) { 
+		return (element.user == data.user && element.pass == data.pass); 
+	});
+	return (found == null) ? {success: false, role:'N'} : {success: true, role: found.role};
 }

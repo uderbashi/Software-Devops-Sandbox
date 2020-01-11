@@ -2,20 +2,22 @@
 <html>
 	<head>
 		<title>Undeploy</title>
-		<link href="/styles.css" rel="stylesheet"/>
+		<link href="styles.css" rel="stylesheet"/>
 	</head>
-		<body>
-
-		<div class="w3-row-padding">
-			<div class="w3-third">
-				<input id="ProjectName" class="w3-input w3-border" type="text" placeholder="Box Bunny">
-			</div>
+	<body>
+		<form class="box" id="form">
+			<h1>CSE343 DevOps Portal</h1>
+			<input id="user" type="text" placeholder="Username">
+			<input id="pass" type="password" placeholder="Password">
+			<button>Login</button>
+		</form>
+		<div class="modal" id="modal">
+			<div class="title">Error! The username and/or the password is incorrect. Please try again.</div>
+			<button id="closePopUp" onclick="closeModal();">OK</button>
 		</div>
-		<button id="UndeployButton">UNDEPLOY</button>
-
-
+		<div id="overlay"></div>
 
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="/calls.js"></script>
+		<script src="/auth.js"></script>
 	</body>
 </html>
