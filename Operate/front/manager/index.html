@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Manager Panel</title>
+		<link href="styles.css" rel="stylesheet"/>
+	</head>
+	<body>
+		<div class="box">
+			<h1>Welcome to the DevOps manager panel</h1>
+			<button id="hire" onclick="openModal('hireModal');">Hire</button>
+			<button id="fire" onclick="openModal('new');">Fire</button>
+			<button id="newP">New Project</button>
+			<button id="undeploy">Undeploy</button>
+			<button id="logout" onclick="window.location.href = './..';">Log Out</button>
+		</div>
+		
+		<div class="modal" id="hireModal">
+			<input id="newUser" type="text" placeholder="New Username">
+			<input id="newPass" type="password" placeholder="New Password">
+			<input id="newPassConfirm" type="password" placeholder="Confirm Password">
+			<div class="radio-group">
+				<label class="radio">
+					<input type="radio" name="position" value="M" id="radioM"> Manager
+					<span></span>
+				</label>
+				<label class="radio">
+					<input type="radio" name="position" value="I" id="radioI"> IT Specialist
+					<span></span>
+				</label>
+				<label class="radio">
+					<input type="radio" name="position" value="P" id="radioP" checked="checked"> Programmer
+					<span></span>
+				</label>
+			</div>
+			<button onclick="addNewUser();">Add</button>
+			<button onclick="closeHire();">Cancel</button>
+		</div>
+		<div class="modal error" id="passwordMismatchError">
+			<div class="title">Error! The password and the confirmation you entered do not match. Please try again.</div>
+			<button id="closePopUp" onclick="closeModal('passwordMismatchError');">OK</button>
+		</div>
+		<div class="modal error" id="userAlreadyExistsError">
+			<div class="title">Error! The user you are trying to add already exists. Please try again.</div>
+			<button id="closePopUp" onclick="closeModal('userAlreadyExistsError');">OK</button>
+		</div>
+
+
+
+		<div id="overlay"></div>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="./manage.js"></script>
+	</body>
+</html>

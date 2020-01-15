@@ -38,7 +38,13 @@ io.on('connection', function(socket){
 			token: data.token,
 			success: authInfo.success,
 			role: authInfo.role
-		})
+		});
+	});
+
+	socket.on('checkUser', function(data){
+		socket.emit('userChecked', {
+			result: checkUser(data)
+		});
 	});
 });
 
@@ -71,9 +77,26 @@ function undeployPost(jsonData){
 // Users //
 //*******//
 var users = [{user:'admin', pass:'admin', role:'M'}];
+
 function auth(data){
-	found = users.find(function(element) { 
-		return (element.user == data.user && element.pass == data.pass); 
-	});
+	var found = null;
+
+	for (var i = 0; i < users.length; i++) {
+		if (users[i].user == data.user && users[i].pass == data.pass){
+			found = users[i];
+			break;
+		}
+	}
+
 	return (found == null) ? {success: false, role:'N'} : {success: true, role: found.role};
+}
+
+function checkUser(data){
+	for (var i = 0; i < users.length; i++) {
+		if (users[i].user == data){
+			return true;
+		}
+	}
+
+	return false;
 }

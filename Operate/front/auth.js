@@ -25,7 +25,9 @@ form.addEventListener('submit', function(self){
 socket.on('authRes', function(data){
 	if (data.token == token) {
 		if (data.success) {
-			alert(data.role);
+			if (data.role == 'M') {
+				window.location.href = './manager/';
+			}
 		} else {
 			openModal();
 		}
