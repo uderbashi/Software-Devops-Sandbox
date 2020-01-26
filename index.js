@@ -33,17 +33,12 @@ io.on('connection', function(socket){
 	});
 
 	socket.on('auth', function(data){
-		var authInfo = auth(data);
-		socket.emit('authRes', {
-			token: data.token,
-			success: authInfo.success,
-			role: authInfo.role
-		});
+		socket.emit('authRes', auth(data));
 	});
 
 	socket.on('checkUser', function(data){
 		socket.emit('userChecked', {
-			result: checkUser(data)
+			result: auth(data).success
 		});
 	});
 });

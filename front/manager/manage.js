@@ -44,14 +44,21 @@ function addNewUser(){
 	}
 }
 
-function checkUser(user){
+async function checkUser(user){
 	socket.emit('checkUser', {
 		user: user
 	});
 
-	socket.on('userChecked', function(data){
-		return data.result;
+	var res;
+
+	await socket.on('userChecked', function(data){
+		res = data.result;
+		console.log(res);
 	});
+
+	console.log(res);
+	
+	return res;
 }
 
 function getRole(){

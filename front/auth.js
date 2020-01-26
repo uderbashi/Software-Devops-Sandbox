@@ -8,30 +8,10 @@ const modal = document.getElementById('modal');
 const close = document.getElementById('closePopUp');
 const overlay = document.getElementById('overlay');
 
-var token = -1;
-
 
 form.addEventListener('submit', function(self){
 	self.preventDefault();
-	token = Math.random() * 1000 + 1;
-	socket.emit('auth', {
-		user: user.value,
-		pass: pass.value,
-		token : token
-	});
-	pass.value = '';
-});
-
-socket.on('authRes', function(data){
-	if (data.token == token) {
-		if (data.success) {
-			if (data.role == 'M') {
-				window.location.href = './manager/';
-			}
-		} else {
-			openModal();
-		}
-	}
+	userAuth();
 });
 
 function openModal() {
@@ -42,4 +22,22 @@ function openModal() {
 function closeModal() {
 	modal.classList.remove('active');
 	overlay.classList.remove('active');
+}
+
+function userAuth(){
+	socket.emit('auth', {
+		user: user.value,
+		pass: pass.value,
+	});
+	pass.value = '';
+
+	socket.on('authRes', function(data){
+		if (data.success) {
+			if (data.role == 'M') {
+				window.location.href = './manager/';
+			}
+		} else {
+			openModal();
+		}
+	});
 }
