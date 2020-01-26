@@ -32,14 +32,16 @@ io.on('connection', function(socket){
 		undeployPost(data)
 	});
 
-	socket.on('auth', function(data){
-		socket.emit('authRes', auth(data));
+	socket.on('auth', function(data, res){
+		res(auth(data));
 	});
 
-	socket.on('checkUser', function(data){
-		socket.emit('userChecked', {
-			result: auth(data).success
-		});
+	socket.on('checkUser', function(data, res){
+		res(checkUser(data.user));
+	});
+
+	socket.on('addNewUser', function(data){
+		addUser(data);
 	});
 });
 
@@ -74,24 +76,25 @@ function undeployPost(jsonData){
 var users = [{user:'admin', pass:'admin', role:'M'}];
 
 function auth(data){
-	var found = null;
+	var id = checkUser(data.user);
 
-	for (var i = 0; i < users.length; i++) {
-		if (users[i].user == data.user && users[i].pass == data.pass){
-			found = users[i];
-			break;
-		}
+	if (id == -1 || users[id].pass != data.pass){
+		return {success: false, role:'N'};
 	}
 
-	return (found == null) ? {success: false, role:'N'} : {success: true, role: found.role};
+	return {success: true, role:  users[id].role};
 }
 
-function checkUser(data){
+function checkUser(data){ //returns the id of the user if found, -1 if not
 	for (var i = 0; i < users.length; i++) {
 		if (users[i].user == data){
-			return true;
+			return i;
 		}
 	}
 
-	return false;
+	return -1;
+}
+
+function addUser(data){
+	users.push(data);
 }

@@ -33,7 +33,6 @@ function addNewUser(){
 	if (newPass.value != newPassConfirm.value){
 		openModal('passwordMismatchError');
 	} else if (checkUser(newUser.value)) {
-		console.log("saas")
 		openModal('userAlreadyExistsError');
 	} else {
 		socket.emit('addNewUser', {
@@ -41,24 +40,18 @@ function addNewUser(){
 			pass: newPass.value,
 			role: getRole()
 		});
+		closeHire();
 	}
 }
 
-async function checkUser(user){
+function checkUser(user){
 	socket.emit('checkUser', {
 		user: user
-	});
-
-	var res;
-
-	await socket.on('userChecked', function(data){
-		res = data.result;
+	}, function(res){
 		console.log(res);
+		return res;
 	});
 
-	console.log(res);
-	
-	return res;
 }
 
 function getRole(){

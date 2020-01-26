@@ -28,10 +28,7 @@ function userAuth(){
 	socket.emit('auth', {
 		user: user.value,
 		pass: pass.value,
-	});
-	pass.value = '';
-
-	socket.on('authRes', function(data){
+	}, function(data){
 		if (data.success) {
 			if (data.role == 'M') {
 				window.location.href = './manager/';
@@ -40,4 +37,5 @@ function userAuth(){
 			openModal();
 		}
 	});
+	pass.value = '';
 }
