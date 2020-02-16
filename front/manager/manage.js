@@ -1,9 +1,9 @@
 const socket = io.connect('http://localhost:4001');
 
-//overlay
+// Overlay
 const overlay = document.getElementById('overlay');
 
-//Hire Modal
+// Hire Modal
 const hireModal = document.getElementById('hireModal');
 const newUser = document.getElementById('newUser');
 const newPass = document.getElementById('newPass');
@@ -12,8 +12,14 @@ const radioM = document.getElementById('radioM');
 const radioI = document.getElementById('radioI');
 const radioP = document.getElementById('radioP');
 
-//Fire Modal
+// Fire Modal
 const firedUser = document.getElementById('firedUser');
+
+// New Project Modal
+const newP = document.getElementById('newP');
+
+// Undeploy Modal
+const undeployed = document.getElementById('undeployed');
 
 
 
@@ -74,6 +80,38 @@ async function fireUser(){
 function closeFire() {
 	firedUser.value = "";
 	closeModal('fireModal');
+}
+
+function newProject(){
+	if (newP.value === ""){
+		openModal('emptyFieldError');
+	} else {
+		socket.emit('newProject', {
+			project: newP.value
+		});
+		closeNewProject();
+	}
+}
+
+function closeNewProject(){
+	newP.value = "";
+	closeModal('newProject');
+}
+
+function undeploy(){
+	if (undeployed.value === ""){
+		openModal('emptyFieldError');
+	} else {
+		socket.emit('undeploy', {
+			project: undeployed.value
+		});
+		closeUndeploy();
+	}
+}
+
+function closeUndeploy(){
+	undeployed.value = "";
+	closeModal('undeploy');
 }
 
 function openModal(modal) {

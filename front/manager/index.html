@@ -7,11 +7,11 @@
 	<body>
 		<div class="box">
 			<h1>Welcome to the DevOps manager panel</h1>
-			<button id="hire" onclick="openModal('hireModal');">Hire</button>
-			<button id="fire" onclick="openModal('fireModal');">Fire</button>
-			<button id="newP">New Project</button>
-			<button id="undeploy">Undeploy</button>
-			<button id="logout" onclick="window.location.href = './..';">Log Out</button>
+			<button onclick="openModal('hireModal');">Hire</button>
+			<button onclick="openModal('fireModal');">Fire</button>
+			<button onclick="openModal('newProject');">New Project</button>
+			<button onclick="openModal('undeploy');">Undeploy</button>
+			<button onclick="window.location.href = './..';">Log Out</button>
 		</div>
 		
 		<div class="modal" id="hireModal">
@@ -43,13 +43,13 @@
 		</div>
 
 		<div class="modal" id="newProject">
-			<input id="newProjectName" type="text" placeholder="Name of the New Project">
-			<button onclick="newProject();">Add</button>
+			<input id="newP" type="text" placeholder="Name of the New Project">
+			<button onclick="newProject();">Create</button>
 			<button onclick="closeNewProject();">Cancel</button>
 		</div>
 
 		<div class="modal" id="undeploy">
-			<input id="undeployName" type="text" placeholder="Name of Project to Undeploy">
+			<input id="undeployed" type="text" placeholder="Name of Project to Undeploy">
 			<button onclick="undeploy();">Undeploy</button>
 			<button onclick="closeUndeploy();">Cancel</button>
 		</div>
