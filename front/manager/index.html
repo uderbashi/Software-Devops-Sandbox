@@ -8,7 +8,7 @@
 		<div class="box">
 			<h1>Welcome to the DevOps manager panel</h1>
 			<button id="hire" onclick="openModal('hireModal');">Hire</button>
-			<button id="fire" onclick="openModal('new');">Fire</button>
+			<button id="fire" onclick="openModal('fireModal');">Fire</button>
 			<button id="newP">New Project</button>
 			<button id="undeploy">Undeploy</button>
 			<button id="logout" onclick="window.location.href = './..';">Log Out</button>
@@ -35,6 +35,11 @@
 			<button onclick="addNewUser();">Add</button>
 			<button onclick="closeHire();">Cancel</button>
 		</div>
+		<div class="modal" id="fireModal">
+			<input id="firedUser" type="text" placeholder="Fired Username">
+			<button onclick="fireUser();">Fire</button>
+			<button onclick="closeFire();">Cancel</button>
+		</div>
 		<div class="modal error" id="passwordMismatchError">
 			<div class="title">Error! The password and the confirmation you entered do not match. Please try again.</div>
 			<button id="closePopUp" onclick="closeModal('passwordMismatchError');">OK</button>
@@ -43,7 +48,14 @@
 			<div class="title">Error! The user you are trying to add already exists. Please try again.</div>
 			<button id="closePopUp" onclick="closeModal('userAlreadyExistsError');">OK</button>
 		</div>
-
+		<div class="modal error" id="emptyFieldError">
+			<div class="title">Error! One feild is empty. Please make sure you fill up all the feilds and try again.</div>
+			<button id="closePopUp" onclick="closeModal('emptyFieldError');">OK</button>
+		</div>
+		<div class="modal error" id="userDoesntExistError">
+			<div class="title">Error! The user you are trying to fire doesn't exists. Make sure of the name and try again.</div>
+			<button id="closePopUp" onclick="closeModal('userDoesntExistError');">OK</button>
+		</div>
 
 
 		<div id="overlay"></div>

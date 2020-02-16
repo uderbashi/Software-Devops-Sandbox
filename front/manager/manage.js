@@ -19,36 +19,44 @@ const radioM = document.getElementById('radioM');
 const radioI = document.getElementById('radioI');
 const radioP = document.getElementById('radioP');
 
+//Fire Modal
+const firedUser = document.getElementById('firedUser');
+
+
 
 function closeHire() {
-    newUser.value = "";
-    newPass.value = "";
-    newPassConfirm.value = "";
-    radioP.checked = true;
-    closeModal('hireModal');
+	newUser.value = "";
+	newPass.value = "";
+	newPassConfirm.value = "";
+	radioP.checked = true;
+	closeModal('hireModal');
 }
 
-function addNewUser() {
-    if (newPass.value !== newPassConfirm.value) {
-        openModal('passwordMismatchError');
-    } else if (checkUser(newUser.value)) {
-        openModal('userAlreadyExistsError');
-    } else {
-        socket.emit('addNewUser', {
-            user: newUser.value,
-            pass: newPass.value,
-            role: getRole()
-        });
-        closeHire();
-    }
+async function addNewUser() {
+	if (newUser.value === "" || newPass.value === "" || newPassConfirm.value === ""){
+		openModal('emptyFieldError');
+	} else if (newPass.value !== newPassConfirm.value) {
+		openModal('passwordMismatchError');
+	} else if (await checkUser(newUser.value)) {
+		openModal('userAlreadyExistsError');
+	} else {
+		socket.emit('addNewUser', {
+			user: newUser.value,
+			pass: newPass.value,
+			role: getRole()
+		});
+		closeHire();
+	}
 }
 
 function checkUser(user) {
-    socket.emit('checkUser', {
-        user: user
-    }, function (res) {
-        return res;
-    });
+	return new Promise(function(resolve, reject){
+		socket.emit('checkUser', {
+			user: user
+		}, function (res) {
+			resolve(res);
+		});
+	});
 }
 
 function getRole(){
@@ -57,19 +65,37 @@ function getRole(){
 	if (radioP.checked) {return 'P'}
 }
 
+async function fireUser(){
+	if (firedUser.value === ""){
+		openModal('emptyFieldError');
+	} else if (await checkUser(firedUser.value) === false) {
+		openModal('userDoesntExistError');
+	} else {
+		socket.emit('fireUser', {
+			user: firedUser.value
+		});
+		closeFire();
+	}
+}
+
+function closeFire() {
+	firedUser.value = "";
+	closeModal('fireModal');
+}
+
 function openModal(modal) {
-    document.getElementById(modal).classList.add('active');
-    overlay.classList.add('active');
-    if (document.getElementById(modal).classList.contains('error')) {
-        overlay.classList.add('error');
-    }
+	document.getElementById(modal).classList.add('active');
+	overlay.classList.add('active');
+	if (document.getElementById(modal).classList.contains('error')) {
+		overlay.classList.add('error');
+	}
 }
 
 function closeModal(modal) {
-    document.getElementById(modal).classList.remove('active');
-    if (overlay.classList.contains('error')) {
-        overlay.classList.remove('error');
-    } else {
-        overlay.classList.remove('active');
-    }
+	document.getElementById(modal).classList.remove('active');
+	if (overlay.classList.contains('error')) {
+		overlay.classList.remove('error');
+	} else {
+		overlay.classList.remove('active');
+	}
 }
