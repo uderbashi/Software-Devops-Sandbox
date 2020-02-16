@@ -1,9 +1,9 @@
 //******************//
 //Required Libraries//
 //******************//
-var express = require('express');
-var socket = require('socket.io');
-var request = require('request');
+var express = require("express");
+var socket = require("socket.io");
+var request = require("request");
 
 
 
@@ -14,7 +14,7 @@ var front = express();
 var frontListener = front.listen(4001, function () {
 	console.log("localhost:4001 to access the front end")
 });
-front.use(express.static('front'));
+front.use(express.static("front"));
 
 var back = express();
 var backListener = back.listen(4000, function () {
@@ -25,33 +25,37 @@ back.use(express.json());
 
 
 //*****************//
-//Frontend's socket//
+//Frontend"s socket//
 //*****************//
 var io = socket(frontListener);
 
-io.on('connection', function (socket) {
+io.on("connection", function (socket) {
 
 	// Login page
-	socket.on('auth', function (data, res) {
+	socket.on("auth", function (data, res) {
 		res(auth(data));
 	});
 
 
 	// Manager page
-	socket.on('checkUser', function (data, res) {
+	socket.on("checkUser", function (data, res) {
 		res(users.has(data.user));
 	});
 
-	socket.on('addNewUser', function (data) {
+	socket.on("addNewUser", function (data) {
 		addUser(data);
 	});
 
-	socket.on('fireUser', function (data) {
+	socket.on("fireUser", function (data) {
 		fireUser(data);
 	});
 
-	socket.on('undeploy', function (data) {
-		undeployPost(data)
+	socket.on("newProject", function (data) {
+		postNewProject(data)
+	});
+
+	socket.on("undeploy", function (data) {
+		postUndeploy(data)
 	});
 	
 });
@@ -61,8 +65,8 @@ io.on('connection', function (socket) {
 //**********//
 //Back Calls//
 //**********//
-back.post('/', function (req, res) {
-	io.emit('postIncoming', req.body);
+back.post("/", function (req, res) {
+	io.emit("postIncoming", req.body);
 	res.send(req.body);
 });
 
@@ -71,10 +75,34 @@ back.post('/', function (req, res) {
 //****************//
 //Helper Functions//
 //****************//
-function undeployPost(jsonData) {
+function postNewProject(data) {
 	request.post(
-		'http://localhost:8081',
-		{json: jsonData},
+		"http://localhost:8081",
+		{json: {
+			origin:"4",
+			destination: "2",
+			action: "newProject",
+			newProjectName: data.project
+		}},
+		function (error, response, body) {
+			if (!error && response.statusCode === 200) {
+				// no problems
+			} else {
+				console.log("Error!!!!");
+			}
+		}
+	);
+}
+
+function postUndeploy(data) {
+	request.post(
+		"http://localhost:8081",
+		{json: {
+			origin:"4",
+			destination: "2",
+			action: "undeploy",
+			projectName: data.project
+		}},
 		function (error, response, body) {
 			if (!error && response.statusCode === 200) {
 				// no problems
@@ -91,13 +119,13 @@ function undeployPost(jsonData) {
 // Users //
 //*******//
 let users = new Map();
-users.set('admin', {user: 'admin', pass: 'admin', role: 'M'});
+users.set("admin", {user: "admin", pass: "admin", role: "M"});
 
 function auth(data) {
 	var result = users.get(data.user);
 
 	if (!result || result.pass !== data.pass) {
-		return {role: 'N'};
+		return {role: "N"};
 	}
 
 	return {role: result.role};

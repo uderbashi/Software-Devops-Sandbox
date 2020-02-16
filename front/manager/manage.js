@@ -1,25 +1,25 @@
-const socket = io.connect('http://localhost:4001');
+const socket = io.connect("http://localhost:4001");
 
 // Overlay
-const overlay = document.getElementById('overlay');
+const overlay = document.getElementById("overlay");
 
 // Hire Modal
-const hireModal = document.getElementById('hireModal');
-const newUser = document.getElementById('newUser');
-const newPass = document.getElementById('newPass');
-const newPassConfirm = document.getElementById('newPassConfirm');
-const radioM = document.getElementById('radioM');
-const radioI = document.getElementById('radioI');
-const radioP = document.getElementById('radioP');
+const hireModal = document.getElementById("hireModal");
+const newUser = document.getElementById("newUser");
+const newPass = document.getElementById("newPass");
+const newPassConfirm = document.getElementById("newPassConfirm");
+const radioM = document.getElementById("radioM");
+const radioI = document.getElementById("radioI");
+const radioP = document.getElementById("radioP");
 
 // Fire Modal
-const firedUser = document.getElementById('firedUser');
+const firedUser = document.getElementById("firedUser");
 
 // New Project Modal
-const newP = document.getElementById('newP');
+const newP = document.getElementById("newP");
 
 // Undeploy Modal
-const undeployed = document.getElementById('undeployed');
+const undeployed = document.getElementById("undeployed");
 
 
 
@@ -28,18 +28,18 @@ function closeHire() {
 	newPass.value = "";
 	newPassConfirm.value = "";
 	radioP.checked = true;
-	closeModal('hireModal');
+	closeModal("hireModal");
 }
 
 async function addNewUser() {
 	if (newUser.value === "" || newPass.value === "" || newPassConfirm.value === ""){
-		openModal('emptyFieldError');
+		openModal("emptyFieldError");
 	} else if (newPass.value !== newPassConfirm.value) {
-		openModal('passwordMismatchError');
+		openModal("passwordMismatchError");
 	} else if (await checkUser(newUser.value)) {
-		openModal('userAlreadyExistsError');
+		openModal("userAlreadyExistsError");
 	} else {
-		socket.emit('addNewUser', {
+		socket.emit("addNewUser", {
 			user: newUser.value,
 			pass: newPass.value,
 			role: getRole()
@@ -50,7 +50,7 @@ async function addNewUser() {
 
 function checkUser(user) {
 	return new Promise(function(resolve, reject){
-		socket.emit('checkUser', {
+		socket.emit("checkUser", {
 			user: user
 		}, function (res) {
 			resolve(res);
@@ -59,18 +59,18 @@ function checkUser(user) {
 }
 
 function getRole(){
-	if (radioM.checked) {return 'M'}
-	if (radioI.checked) {return 'I'}
-	if (radioP.checked) {return 'P'}
+	if (radioM.checked) {return "M"}
+	if (radioI.checked) {return "I"}
+	if (radioP.checked) {return "P"}
 }
 
 async function fireUser(){
 	if (firedUser.value === ""){
-		openModal('emptyFieldError');
+		openModal("emptyFieldError");
 	} else if (await checkUser(firedUser.value) === false) {
-		openModal('userDoesntExistError');
+		openModal("userDoesntExistError");
 	} else {
-		socket.emit('fireUser', {
+		socket.emit("fireUser", {
 			user: firedUser.value
 		});
 		closeFire();
@@ -79,14 +79,14 @@ async function fireUser(){
 
 function closeFire() {
 	firedUser.value = "";
-	closeModal('fireModal');
+	closeModal("fireModal");
 }
 
 function newProject(){
 	if (newP.value === ""){
-		openModal('emptyFieldError');
+		openModal("emptyFieldError");
 	} else {
-		socket.emit('newProject', {
+		socket.emit("newProject", {
 			project: newP.value
 		});
 		closeNewProject();
@@ -95,14 +95,14 @@ function newProject(){
 
 function closeNewProject(){
 	newP.value = "";
-	closeModal('newProject');
+	closeModal("newProject");
 }
 
 function undeploy(){
 	if (undeployed.value === ""){
-		openModal('emptyFieldError');
+		openModal("emptyFieldError");
 	} else {
-		socket.emit('undeploy', {
+		socket.emit("undeploy", {
 			project: undeployed.value
 		});
 		closeUndeploy();
@@ -111,22 +111,22 @@ function undeploy(){
 
 function closeUndeploy(){
 	undeployed.value = "";
-	closeModal('undeploy');
+	closeModal("undeploy");
 }
 
 function openModal(modal) {
-	document.getElementById(modal).classList.add('active');
-	overlay.classList.add('active');
-	if (document.getElementById(modal).classList.contains('error')) {
-		overlay.classList.add('error');
+	document.getElementById(modal).classList.add("active");
+	overlay.classList.add("active");
+	if (document.getElementById(modal).classList.contains("error")) {
+		overlay.classList.add("error");
 	}
 }
 
 function closeModal(modal) {
-	document.getElementById(modal).classList.remove('active');
-	if (overlay.classList.contains('error')) {
-		overlay.classList.remove('error');
+	document.getElementById(modal).classList.remove("active");
+	if (overlay.classList.contains("error")) {
+		overlay.classList.remove("error");
 	} else {
-		overlay.classList.remove('active');
+		overlay.classList.remove("active");
 	}
 }

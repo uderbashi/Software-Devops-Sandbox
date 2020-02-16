@@ -1,40 +1,40 @@
-const socket = io.connect('http://localhost:4001');
+const socket = io.connect("http://localhost:4001");
 
-const form = document.getElementById('form');
-const user = document.getElementById('user');
-const pass = document.getElementById('pass');
+const form = document.getElementById("form");
+const user = document.getElementById("user");
+const pass = document.getElementById("pass");
 
-const modal = document.getElementById('modal');
-const overlay = document.getElementById('overlay');
+const modal = document.getElementById("modal");
+const overlay = document.getElementById("overlay");
 
 
-form.addEventListener('submit', function (self) {
+form.addEventListener("submit", function (self) {
 	self.preventDefault();
 	userAuth();
 });
 
 function openModal() {
-	modal.classList.add('active');
-	overlay.classList.add('active');
+	modal.classList.add("active");
+	overlay.classList.add("active");
 }
 
 function closeModal() {
-	modal.classList.remove('active');
-	overlay.classList.remove('active');
+	modal.classList.remove("active");
+	overlay.classList.remove("active");
 }
 
 function userAuth() {
-	socket.emit('auth', {
+	socket.emit("auth", {
 		user: user.value,
 		pass: pass.value,
 		}, function (data) {
-			if (data.role !== 'N') {
-				if (data.role === 'M') {
-					window.location.href = './manager/';
+			if (data.role !== "N") {
+				if (data.role === "M") {
+					window.location.href = "./manager/";
 				}
 			} else {
 				openModal();
 			}
 	});
-	pass.value = '';
+	pass.value = "";
 }
