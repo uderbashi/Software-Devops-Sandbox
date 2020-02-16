@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:4001');
+const socket = io.connect('http://localhost:4001');
 
 //Buttons
 const hire = document.getElementById('hire');
@@ -43,16 +43,10 @@ function addNewUser() {
     }
 }
 
-/**
- *
- * @param user
- * @returns {Promise<void>}
- */
-async function checkUser(user) {
-    await socket.emit('checkUser', {
+function checkUser(user) {
+    socket.emit('checkUser', {
         user: user
     }, function (res) {
-        console.log("checkUser", res);
         return res;
     });
 }

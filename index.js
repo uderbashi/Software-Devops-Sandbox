@@ -2,11 +2,15 @@ var express = require('express');
 var socket = require('socket.io');
 var request = require('request');
 
+
+
 //*******//
 // Users //
 //*******//
 let users = new Map();
 users.set('admin', {user: 'admin', pass: 'admin', role: 'M'});
+
+
 
 //*************************//
 //Ports and their listeners//
@@ -24,6 +28,7 @@ var backListener = back.listen(4000, function () {
 back.use(express.json());
 
 
+
 //*****************//
 //Frontend's socket//
 //*****************//
@@ -35,7 +40,6 @@ io.on('connection', function (socket) {
     });
 
     socket.on('auth', function (data, res) {
-        console.log(data);
         res(auth(data));
     });
 
@@ -52,6 +56,7 @@ back.post('/', function (req, res) {
     io.emit('postIncoming', req.body);
     res.send(req.body);
 });
+
 
 
 //****************//
@@ -83,6 +88,5 @@ function auth(data) {
 }
 
 function addUser(data) {
-    console.log("addUser", data);
     users.set(data.user, data);
 }
