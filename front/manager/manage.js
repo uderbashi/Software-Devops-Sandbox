@@ -51,16 +51,10 @@ function checkUser(user) {
     });
 }
 
-function getRole() {
-    if (radioM.checked) {
-        return 'M'
-    }
-    if (radioI.checked) {
-        return 'I'
-    }
-    if (radioP.checked) {
-        return 'P'
-    }
+function getRole(){
+	if (radioM.checked) {return 'M'}
+	if (radioI.checked) {return 'I'}
+	if (radioP.checked) {return 'P'}
 }
 
 function openModal(modal) {
