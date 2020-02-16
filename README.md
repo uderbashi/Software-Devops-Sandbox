@@ -8,12 +8,13 @@ I won't by any mean create the perfect idea that was in my head, since our part 
 
 ## How to use?
 
-1- Installation
-	* First thing make sure you have [Node.js](nodejs.org) installed
-	* If you're installing the project fresh and don't have the `node_modules` directory in the project run `npm i`
+1. Installation
+    * First thing make sure you have [Node.js](nodejs.org) installed
+    * If you're installing the project fresh and don't have the `node_modules` directory in the project run `npm i`
 
-2- Usage
-	* Getting the server up and running
-		* If you just want to run the project execute `npm start` or `node index.js`
-		* If you want to use it for development convenience (automatically restarts when editing files) execute `nodemon index.js`
-	* Further instructions should be printed in the console
+2. Usage
+    * Getting the server up and running
+        * If you just want to run the project execute `npm start` or `node index.js`
+        * If you want to use it for development convenience (automatically restarts when editing files) execute `nodemon index.js`
+    * Further instructions should be printed in the console
+
