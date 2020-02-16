@@ -4,21 +4,28 @@ var request = require('request');
 
 
 
+//*******//
+// Users //
+//*******//
+let users = new Map();
+users.set('admin', {user: 'admin', pass: 'admin', role: 'M'});
+
+
+
 //*************************//
 //Ports and their listeners//
 //*************************//
 var front = express();
-var frontListener = front.listen(4001, function(){
-	console.log("localhost:4001 to access the front end")
+var frontListener = front.listen(4001, function () {
+    console.log("localhost:4001 to access the front end")
 });
 front.use(express.static('front'));
 
 var back = express();
-var backListener = back.listen(4000, function(){
-	console.log("other groups send to localhost:4000")
+var backListener = back.listen(4000, function () {
+    console.log("other groups send to localhost:4000")
 });
 back.use(express.json());
-
 
 
 
@@ -27,74 +34,59 @@ back.use(express.json());
 //*****************//
 var io = socket(frontListener);
 
-io.on('connection', function(socket){
-	socket.on('undeploy', function(data){
-		undeployPost(data)
-	});
+io.on('connection', function (socket) {
+    socket.on('undeploy', function (data) {
+        undeployPost(data)
+    });
 
-	socket.on('auth', function(data, res){
-		res(auth(data));
-	});
+    socket.on('auth', function (data, res) {
+        res(auth(data));
+    });
 
-	socket.on('checkUser', function(data, res){
-		res(checkUser(data.user));
-	});
+    socket.on('checkUser', function (data, res) {
+        res(users.get(data.user));
+    });
 
-	socket.on('addNewUser', function(data){
-		addUser(data);
-	});
+    socket.on('addNewUser', function (data) {
+        addUser(data);
+    });
 });
 
-back.post('/', function(req, res){
-	io.emit('postIncoming', req.body);
-	res.send(req.body);
-});	
+back.post('/', function (req, res) {
+    io.emit('postIncoming', req.body);
+    res.send(req.body);
+});
 
 
 
 //****************//
 //Helper Functions//
 //****************//
-function undeployPost(jsonData){
-	request.post(
-		'http://localhost:8081',
-		{ json: jsonData },
-		function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				// no problems
-			} else {
-				console.log("Error!!!!");
-			}
-		}
-	);
+function undeployPost(jsonData) {
+    request.post(
+        'http://localhost:8081',
+        {json: jsonData},
+        function (error, response, body) {
+            if (!error && response.statusCode === 200) {
+                // no problems
+            } else {
+                console.log("Error!!!!");
+            }
+        }
+    );
 }
 
 
-//*******//
-// Users //
-//*******//
-var users = [{user:'admin', pass:'admin', role:'M'}];
+function auth(data) {
+    const result = users.get(data.user);
 
-function auth(data){
-	var id = checkUser(data.user);
+    if (!result) {
+        return {success: false, role: 'N'};
+    }
 
-	if (id == -1 || users[id].pass != data.pass){
-		return {success: false, role:'N'};
-	}
-
-	return {success: true, role:  users[id].role};
+    return {success: true, role: result.role};
 }
 
-function checkUser(data){ //returns the id of the user if found, -1 if not
-	for (var i = 0; i < users.length; i++) {
-		if (users[i].user == data){
-			return i;
-		}
-	}
-
-	return -1;
-}
-
-function addUser(data){
-	users.push(data);
+function addUser(data) {
+    users.set(data.user, data);
 }

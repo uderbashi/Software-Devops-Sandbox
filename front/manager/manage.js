@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:4001');
+const socket = io.connect('http://localhost:4001');
 
 //Buttons
 const hire = document.getElementById('hire');
@@ -20,38 +20,35 @@ const radioI = document.getElementById('radioI');
 const radioP = document.getElementById('radioP');
 
 
-
-function closeHire(){
-	newUser.value = "";
-	newPass.value = "";
-	newPassConfirm.value = "";
-	radioP.checked = true;
-	closeModal('hireModal');
+function closeHire() {
+    newUser.value = "";
+    newPass.value = "";
+    newPassConfirm.value = "";
+    radioP.checked = true;
+    closeModal('hireModal');
 }
 
-function addNewUser(){
-	if (newPass.value != newPassConfirm.value){
-		openModal('passwordMismatchError');
-	} else if (checkUser(newUser.value)) {
-		openModal('userAlreadyExistsError');
-	} else {
-		socket.emit('addNewUser', {
-			user: newUser.value,
-			pass: newPass.value,
-			role: getRole()
-		});
-		closeHire();
-	}
+function addNewUser() {
+    if (newPass.value !== newPassConfirm.value) {
+        openModal('passwordMismatchError');
+    } else if (checkUser(newUser.value)) {
+        openModal('userAlreadyExistsError');
+    } else {
+        socket.emit('addNewUser', {
+            user: newUser.value,
+            pass: newPass.value,
+            role: getRole()
+        });
+        closeHire();
+    }
 }
 
-function checkUser(user){
-	socket.emit('checkUser', {
-		user: user
-	}, function(res){
-		console.log(res);
-		return res;
-	});
-
+function checkUser(user) {
+    socket.emit('checkUser', {
+        user: user
+    }, function (res) {
+        return res;
+    });
 }
 
 function getRole(){
@@ -61,18 +58,18 @@ function getRole(){
 }
 
 function openModal(modal) {
-	document.getElementById(modal).classList.add('active');
-	overlay.classList.add('active');
-	if (document.getElementById(modal).classList.contains('error')) {
-		overlay.classList.add('error');
-	}
+    document.getElementById(modal).classList.add('active');
+    overlay.classList.add('active');
+    if (document.getElementById(modal).classList.contains('error')) {
+        overlay.classList.add('error');
+    }
 }
 
 function closeModal(modal) {
-	document.getElementById(modal).classList.remove('active');
-	if (overlay.classList.contains('error')) {
-		overlay.classList.remove('error');
-	} else {
-		overlay.classList.remove('active');
-	}
+    document.getElementById(modal).classList.remove('active');
+    if (overlay.classList.contains('error')) {
+        overlay.classList.remove('error');
+    } else {
+        overlay.classList.remove('active');
+    }
 }
