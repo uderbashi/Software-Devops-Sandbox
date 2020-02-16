@@ -1,14 +1,9 @@
+//******************//
+//Required Libraries//
+//******************//
 var express = require('express');
 var socket = require('socket.io');
 var request = require('request');
-
-
-
-//*******//
-// Users //
-//*******//
-let users = new Map();
-users.set('admin', {user: 'admin', pass: 'admin', role: 'M'});
 
 
 
@@ -35,14 +30,14 @@ back.use(express.json());
 var io = socket(frontListener);
 
 io.on('connection', function (socket) {
-	socket.on('undeploy', function (data) {
-		undeployPost(data)
-	});
 
+	// Login page
 	socket.on('auth', function (data, res) {
 		res(auth(data));
 	});
 
+
+	// Manager page
 	socket.on('checkUser', function (data, res) {
 		res(users.has(data.user));
 	});
@@ -54,9 +49,18 @@ io.on('connection', function (socket) {
 	socket.on('fireUser', function (data) {
 		fireUser(data);
 	});
+
+	socket.on('undeploy', function (data) {
+		undeployPost(data)
+	});
 	
 });
 
+
+
+//**********//
+//Back Calls//
+//**********//
 back.post('/', function (req, res) {
 	io.emit('postIncoming', req.body);
 	res.send(req.body);
@@ -81,6 +85,13 @@ function undeployPost(jsonData) {
 	);
 }
 
+
+
+//*******//
+// Users //
+//*******//
+let users = new Map();
+users.set('admin', {user: 'admin', pass: 'admin', role: 'M'});
 
 function auth(data) {
 	var result = users.get(data.user);
