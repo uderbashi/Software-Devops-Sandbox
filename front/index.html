@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>LOGIN</title>
-		<link href="styles.css" rel="stylesheet"/>
-	</head>
-	<body>
-		<form class="box" id="form">
-			<h1>CSE343 DevOps Portal</h1>
-			<input id="user" type="text" placeholder="Username">
-			<input id="pass" type="password" placeholder="Password">
-			<button>Login</button>
-		</form>
-		<div class="modal" id="modal">
-			<div class="title">Error! The username and/or the password is incorrect. Please try again.</div>
-			<button id="closePopUp" onclick="closeModal();">OK</button>
-		</div>
-		<div id="overlay"></div>
+<head>
+    <title>LOGIN</title>
+    <link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+<form class="box" id="form">
+    <h1>CSE343 DevOps Portal</h1>
+    <label for="user">Username</label>
+    <input id="user" type="text" placeholder="Username">
 
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="./auth.js"></script>
-	</body>
+    <label for="pass">Password</label>
+    <input id="pass" type="password" placeholder="Password">
+    <button>Login</button>
+</form>
+
+<div class="modal" id="modal">
+    <div class="title">Error! The username and/or the password is incorrect. Please try again.</div>
+    <button id="closePopUp" onclick="closeModal();">OK</button>
+</div>
+<div id="overlay"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+<script src="./auth.js"></script>
+</body>
 </html>

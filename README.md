@@ -1,3 +1,19 @@
-This is a sandbox for me to try and see what can I do with the Software engineering project I have worked on during Autumn-Winter 2019.
+# Project
+ 
+## Backend
+Change directory.
+```shell script
+cd backend
+```
 
-Not meant to be merged with the original branch.
+### Start
+```shell script
+npm start
+```
+or
+```shell script
+yarn start
+```
+
+## Frontend
+Open with browser frontend/index.html
