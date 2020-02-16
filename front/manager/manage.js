@@ -1,12 +1,5 @@
 const socket = io.connect('http://localhost:4001');
 
-//Buttons
-const hire = document.getElementById('hire');
-const fire = document.getElementById('fire');
-const newP = document.getElementById('newP');
-const undeploy = document.getElementById('undeploy');
-const logout = document.getElementById('logout');
-
 //overlay
 const overlay = document.getElementById('overlay');
 
