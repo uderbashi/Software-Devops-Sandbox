@@ -35,23 +35,40 @@
 			<button onclick="addNewUser();">Add</button>
 			<button onclick="closeHire();">Cancel</button>
 		</div>
+
 		<div class="modal" id="fireModal">
 			<input id="firedUser" type="text" placeholder="Fired Username">
 			<button onclick="fireUser();">Fire</button>
 			<button onclick="closeFire();">Cancel</button>
 		</div>
+
+		<div class="modal" id="newProject">
+			<input id="newProjectName" type="text" placeholder="Name of the New Project">
+			<button onclick="newProject();">Add</button>
+			<button onclick="closeNewProject();">Cancel</button>
+		</div>
+
+		<div class="modal" id="undeploy">
+			<input id="undeployName" type="text" placeholder="Name of Project to Undeploy">
+			<button onclick="undeploy();">Undeploy</button>
+			<button onclick="closeUndeploy();">Cancel</button>
+		</div>
+
 		<div class="modal error" id="passwordMismatchError">
 			<div class="title">Error! The password and the confirmation you entered do not match. Please try again.</div>
 			<button id="closePopUp" onclick="closeModal('passwordMismatchError');">OK</button>
 		</div>
+
 		<div class="modal error" id="userAlreadyExistsError">
 			<div class="title">Error! The user you are trying to add already exists. Please try again.</div>
 			<button id="closePopUp" onclick="closeModal('userAlreadyExistsError');">OK</button>
 		</div>
+
 		<div class="modal error" id="emptyFieldError">
 			<div class="title">Error! One feild is empty. Please make sure you fill up all the feilds and try again.</div>
 			<button id="closePopUp" onclick="closeModal('emptyFieldError');">OK</button>
 		</div>
+
 		<div class="modal error" id="userDoesntExistError">
 			<div class="title">Error! The user you are trying to fire doesn't exists. Make sure of the name and try again.</div>
 			<button id="closePopUp" onclick="closeModal('userDoesntExistError');">OK</button>
