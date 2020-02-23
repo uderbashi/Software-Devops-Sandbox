@@ -31,7 +31,11 @@ function userAuth() {
 			if (data.role !== "N") {
 				if (data.role === "M") {
 					window.location.href = "./manager/";
-				}
+				} else if (data.role === "I") {
+					window.location.href = "./it/";
+				}  else if (data.role === "P") {
+					window.location.href = "./prog/";
+				} 
 			} else {
 				openModal();
 			}
