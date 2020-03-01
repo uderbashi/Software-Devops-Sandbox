@@ -57,6 +57,24 @@ io.on("connection", function (socket) {
 	socket.on("undeploy", function (data) {
 		postUndeploy(data)
 	});
+
+	// IT Specialist Page
+	socket.on("realise", function (data) {
+		postRealise(data)
+	});
+
+	socket.on("newTask", function (data) {
+		postNewTask(data)
+	});
+	
+	// Programmer Page
+	socket.on("commitCode", function (data) {
+		commitCode(data)
+	});
+
+	socket.on("commitSQL", function (data) {
+		commitSQL(data)
+	});
 	
 });
 
@@ -66,6 +84,7 @@ io.on("connection", function (socket) {
 //Back Calls//
 //**********//
 back.post("/", function (req, res) {
+	console.log(req.body);
 	io.emit("postIncoming", req.body);
 	res.send(req.body);
 });
@@ -75,15 +94,12 @@ back.post("/", function (req, res) {
 //****************//
 //Helper Functions//
 //****************//
-function postNewProject(data) {
+const postingAdress = "http://localhost:4000";
+
+function post(payload) {
 	request.post(
-		"http://localhost:8081",
-		{json: {
-			origin:"4",
-			destination: "2",
-			action: "newProject",
-			newProjectName: data.project
-		}},
+		postingAdress,
+		{json: payload},
 		function (error, response, body) {
 			if (!error && response.statusCode === 200) {
 				// no problems
@@ -94,23 +110,62 @@ function postNewProject(data) {
 	);
 }
 
+function postNewProject(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "newProject",
+		newProjectName: data.project
+	});
+}
+
 function postUndeploy(data) {
-	request.post(
-		"http://localhost:8081",
-		{json: {
-			origin:"4",
-			destination: "2",
-			action: "undeploy",
-			projectName: data.project
-		}},
-		function (error, response, body) {
-			if (!error && response.statusCode === 200) {
-				// no problems
-			} else {
-				console.log("Error!!!!");
-			}
-		}
-	);
+	post({
+		origin:"4",
+		destination: "2",
+		action: "undeploy",
+		projectName: data.project
+	});
+}
+
+function postRealise(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "assignment",
+		projectName: data.project,
+		projectDescription: data.description
+	});
+}
+
+function postNewTask(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "newtask",
+		projectName: data.project,
+		projectDescription: data.description
+	});
+}
+
+function commitCode(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "upload",
+		projectName: data.project,
+		projectPath: data.path
+	});
+}
+
+function commitSQL(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "uploadsql",
+		projectName: data.project,
+		projectPath: data.path
+	});
 }
 
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>IT Technician Panel</title>
+		<link href="../styles.css" rel="stylesheet"/>
+	</head>
+	<body>
+		<div class="box">
+			<h1>Welcome to the DevOps IT technician panel</h1>
+			<button onclick="openModal('realiseModal');">Realise Project</button>
+			<button onclick="monitor();">Monitor</button>
+			<button onclick="openModal('newTaskModal');">Add Task</button>
+			<button class="logout" onclick="window.location.href = './..';">Log Out</button>
+		</div>
+		
+		<div class="modal" id="realiseModal">
+			<input id="realisedProject" type="text" autocomplete="off" placeholder="Project Name">
+			<input id="description" type="text" autocomplete="off" placeholder="Description">
+			<button onclick="realise();">Realise</button>
+			<button onclick="closeRealise();">Cancel</button>
+		</div>
+
+		<div class="modal" id="newTaskModal">
+			<input id="taskProject" type="text" autocomplete="off" placeholder="Project Name">
+			<input id="taskDescription" type="text" autocomplete="off" placeholder="Task Description">
+			<button onclick="newTask();">Add New Task</button>
+			<button onclick="closeNewTask();">Cancel</button>
+		</div>
+
+		<div class="modal error" id="emptyFieldError">
+			<div class="title">Error! One feild is empty. Please make sure you fill up all the feilds and try again.</div>
+			<button id="closePopUp" onclick="closeModal('emptyFieldError');">OK</button>
+		</div>
+
+
+		<div id="overlay"></div>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="./it.js"></script>
+		<script src="../modal.js"></script>
+	</body>
+</html>

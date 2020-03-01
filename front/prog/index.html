@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Programmer Panel</title>
+		<link href="../styles.css" rel="stylesheet"/>
+	</head>
+	<body>
+		<div class="box">
+			<h1>Welcome to the DevOps programmer panel</h1>
+			<button onclick="openModal('codeModal');">Code Commit</button>
+			<button onclick="openModal('sqlModal');">SQL Commit</button>
+			<button class="logout" onclick="window.location.href = './..';">Log Out</button>
+		</div>
+
+		<div class="modal" id="codeModal">
+			<input id="codeProject" type="text" autocomplete="off" placeholder="Project Name">
+			<input id="codePath" type="text" autocomplete="off" placeholder="Project Path">
+			<button onclick="commitCode();">Commit</button>
+			<button onclick="closeCode();">Cancel</button>
+		</div>
+
+		<div class="modal" id="sqlModal">
+			<input id="sqlProject" type="text" autocomplete="off" placeholder="Project Name">
+			<input id="sqlPath" type="text" autocomplete="off" placeholder="SQL Path">
+			<button onclick="commitSQL();">Commit</button>
+			<button onclick="closeSQL();">Cancel</button>
+		</div>
+
+		<div class="modal error" id="emptyFieldError">
+			<div class="title">Error! One feild is empty. Please make sure you fill up all the feilds and try again.</div>
+			<button id="closePopUp" onclick="closeModal('emptyFieldError');">OK</button>
+		</div>
+
+		<div id="overlay"></div>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="./prog.js"></script>
+		<script src="../modal.js"></script>
+	</body>
+</html>

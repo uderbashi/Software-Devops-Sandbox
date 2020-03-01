@@ -4,7 +4,6 @@ const socket = io.connect("http://localhost:4001");
 const overlay = document.getElementById("overlay");
 
 // Hire Modal
-const hireModal = document.getElementById("hireModal");
 const newUser = document.getElementById("newUser");
 const newPass = document.getElementById("newPass");
 const newPassConfirm = document.getElementById("newPassConfirm");
@@ -112,21 +111,4 @@ function undeploy(){
 function closeUndeploy(){
 	undeployed.value = "";
 	closeModal("undeploy");
-}
-
-function openModal(modal) {
-	document.getElementById(modal).classList.add("active");
-	overlay.classList.add("active");
-	if (document.getElementById(modal).classList.contains("error")) {
-		overlay.classList.add("error");
-	}
-}
-
-function closeModal(modal) {
-	document.getElementById(modal).classList.remove("active");
-	if (overlay.classList.contains("error")) {
-		overlay.classList.remove("error");
-	} else {
-		overlay.classList.remove("active");
-	}
 }

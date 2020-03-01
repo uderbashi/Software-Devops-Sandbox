@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Manager Panel</title>
-		<link href="styles.css" rel="stylesheet"/>
+		<link href="../styles.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<div class="box">
@@ -11,11 +11,11 @@
 			<button onclick="openModal('fireModal');">Fire</button>
 			<button onclick="openModal('newProject');">New Project</button>
 			<button onclick="openModal('undeploy');">Undeploy</button>
-			<button onclick="window.location.href = './..';">Log Out</button>
+			<button class="logout" onclick="window.location.href = './..';">Log Out</button>
 		</div>
 		
 		<div class="modal" id="hireModal">
-			<input id="newUser" type="text" placeholder="New Username">
+			<input id="newUser" type="text" autocomplete="off" placeholder="New Username">
 			<input id="newPass" type="password" placeholder="New Password">
 			<input id="newPassConfirm" type="password" placeholder="Confirm Password">
 			<div class="radio-group">
@@ -37,19 +37,19 @@
 		</div>
 
 		<div class="modal" id="fireModal">
-			<input id="firedUser" type="text" placeholder="Fired Username">
+			<input id="firedUser" type="text" autocomplete="off" placeholder="Fired Username">
 			<button onclick="fireUser();">Fire</button>
 			<button onclick="closeFire();">Cancel</button>
 		</div>
 
 		<div class="modal" id="newProject">
-			<input id="newP" type="text" placeholder="Name of the New Project">
+			<input id="newP" type="text" autocomplete="off" placeholder="Name of the New Project">
 			<button onclick="newProject();">Create</button>
 			<button onclick="closeNewProject();">Cancel</button>
 		</div>
 
 		<div class="modal" id="undeploy">
-			<input id="undeployed" type="text" placeholder="Name of Project to Undeploy">
+			<input id="undeployed" type="text" autocomplete="off" placeholder="Name of Project to Undeploy">
 			<button onclick="undeploy();">Undeploy</button>
 			<button onclick="closeUndeploy();">Cancel</button>
 		</div>
@@ -79,5 +79,6 @@
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="./manage.js"></script>
+		<script src="../modal.js"></script>
 	</body>
 </html>
