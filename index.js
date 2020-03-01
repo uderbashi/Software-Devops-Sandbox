@@ -57,6 +57,16 @@ io.on("connection", function (socket) {
 	socket.on("undeploy", function (data) {
 		postUndeploy(data)
 	});
+
+	// IT Specialist Page
+	socket.on("realise", function (data) {
+		postRealise(data)
+	});
+
+	socket.on("newTask", function (data) {
+		postNewTask(data)
+	});
+	
 	
 });
 
@@ -66,6 +76,7 @@ io.on("connection", function (socket) {
 //Back Calls//
 //**********//
 back.post("/", function (req, res) {
+	console.log(req.body);
 	io.emit("postIncoming", req.body);
 	res.send(req.body);
 });
@@ -102,6 +113,46 @@ function postUndeploy(data) {
 			destination: "2",
 			action: "undeploy",
 			projectName: data.project
+		}},
+		function (error, response, body) {
+			if (!error && response.statusCode === 200) {
+				// no problems
+			} else {
+				console.log("Error!!!!");
+			}
+		}
+	);
+}
+
+function postRealise(data) {
+	request.post(
+		"http://localhost:4000",
+		{json: {
+			origin:"4",
+			destination: "2",
+			action: "assignment",
+			projectName: data.project,
+			projectDescription: data.description
+		}},
+		function (error, response, body) {
+			if (!error && response.statusCode === 200) {
+				// no problems
+			} else {
+				console.log("Error!!!!");
+			}
+		}
+	);
+}
+
+function postNewTask(data) {
+	request.post(
+		"http://localhost:4000",
+		{json: {
+			origin:"4",
+			destination: "2",
+			action: "newtask",
+			projectName: data.project,
+			projectDescription: data.description
 		}},
 		function (error, response, body) {
 			if (!error && response.statusCode === 200) {

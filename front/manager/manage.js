@@ -4,7 +4,6 @@ const socket = io.connect("http://localhost:4001");
 const overlay = document.getElementById("overlay");
 
 // Hire Modal
-const hireModal = document.getElementById("hireModal");
 const newUser = document.getElementById("newUser");
 const newPass = document.getElementById("newPass");
 const newPassConfirm = document.getElementById("newPassConfirm");
