@@ -67,6 +67,14 @@ io.on("connection", function (socket) {
 		postNewTask(data)
 	});
 	
+	// Programmer Page
+	socket.on("commitCode", function (data) {
+		commitCode(data)
+	});
+
+	socket.on("commitSQL", function (data) {
+		commitSQL(data)
+	});
 	
 });
 
@@ -86,15 +94,12 @@ back.post("/", function (req, res) {
 //****************//
 //Helper Functions//
 //****************//
-function postNewProject(data) {
+const postingAdress = "http://localhost:4000";
+
+function post(payload) {
 	request.post(
-		"http://localhost:8081",
-		{json: {
-			origin:"4",
-			destination: "2",
-			action: "newProject",
-			newProjectName: data.project
-		}},
+		postingAdress,
+		{json: payload},
 		function (error, response, body) {
 			if (!error && response.statusCode === 200) {
 				// no problems
@@ -103,65 +108,64 @@ function postNewProject(data) {
 			}
 		}
 	);
+}
+
+function postNewProject(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "newProject",
+		newProjectName: data.project
+	});
 }
 
 function postUndeploy(data) {
-	request.post(
-		"http://localhost:8081",
-		{json: {
-			origin:"4",
-			destination: "2",
-			action: "undeploy",
-			projectName: data.project
-		}},
-		function (error, response, body) {
-			if (!error && response.statusCode === 200) {
-				// no problems
-			} else {
-				console.log("Error!!!!");
-			}
-		}
-	);
+	post({
+		origin:"4",
+		destination: "2",
+		action: "undeploy",
+		projectName: data.project
+	});
 }
 
 function postRealise(data) {
-	request.post(
-		"http://localhost:4000",
-		{json: {
-			origin:"4",
-			destination: "2",
-			action: "assignment",
-			projectName: data.project,
-			projectDescription: data.description
-		}},
-		function (error, response, body) {
-			if (!error && response.statusCode === 200) {
-				// no problems
-			} else {
-				console.log("Error!!!!");
-			}
-		}
-	);
+	post({
+		origin:"4",
+		destination: "2",
+		action: "assignment",
+		projectName: data.project,
+		projectDescription: data.description
+	});
 }
 
 function postNewTask(data) {
-	request.post(
-		"http://localhost:4000",
-		{json: {
-			origin:"4",
-			destination: "2",
-			action: "newtask",
-			projectName: data.project,
-			projectDescription: data.description
-		}},
-		function (error, response, body) {
-			if (!error && response.statusCode === 200) {
-				// no problems
-			} else {
-				console.log("Error!!!!");
-			}
-		}
-	);
+	post({
+		origin:"4",
+		destination: "2",
+		action: "newtask",
+		projectName: data.project,
+		projectDescription: data.description
+	});
+}
+
+function commitCode(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "upload",
+		projectName: data.project,
+		projectPath: data.path
+	});
+}
+
+function commitSQL(data) {
+	post({
+		origin:"4",
+		destination: "2",
+		action: "uploadsql",
+		projectName: data.project,
+		projectPath: data.path
+	});
 }
 
 

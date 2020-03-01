@@ -1,67 +1,29 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Manager Panel</title>
+		<title>Programmer Panel</title>
 		<link href="../styles.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<div class="box">
-			<h1>Welcome to the DevOps manager panel</h1>
-			<button onclick="openModal('hireModal');">Hire</button>
-			<button onclick="openModal('fireModal');">Fire</button>
-			<button onclick="openModal('newProject');">New Project</button>
-			<button onclick="openModal('undeploy');">Undeploy</button>
+			<h1>Welcome to the DevOps programmer panel</h1>
+			<button onclick="openModal('codeModal');">Code Commit</button>
+			<button onclick="openModal('sqlModal');">SQL Commit</button>
 			<button class="logout" onclick="window.location.href = './..';">Log Out</button>
 		</div>
-		
-		<div class="modal" id="hireModal">
-			<input id="newUser" type="text" autocomplete="off" placeholder="New Username">
-			<input id="newPass" type="password" placeholder="New Password">
-			<input id="newPassConfirm" type="password" placeholder="Confirm Password">
-			<div class="radio-group">
-				<label class="radio">
-					<input type="radio" name="position" value="M" id="radioM"> Manager
-					<span></span>
-				</label>
-				<label class="radio">
-					<input type="radio" name="position" value="I" id="radioI"> IT Specialist
-					<span></span>
-				</label>
-				<label class="radio">
-					<input type="radio" name="position" value="P" id="radioP" checked="checked"> Programmer
-					<span></span>
-				</label>
-			</div>
-			<button onclick="addNewUser();">Add</button>
-			<button onclick="closeHire();">Cancel</button>
+
+		<div class="modal" id="codeModal">
+			<input id="codeProject" type="text" autocomplete="off" placeholder="Project Name">
+			<input id="codePath" type="text" autocomplete="off" placeholder="Project Path">
+			<button onclick="commitCode();">Commit</button>
+			<button onclick="closeCode();">Cancel</button>
 		</div>
 
-		<div class="modal" id="fireModal">
-			<input id="firedUser" type="text" autocomplete="off" placeholder="Fired Username">
-			<button onclick="fireUser();">Fire</button>
-			<button onclick="closeFire();">Cancel</button>
-		</div>
-
-		<div class="modal" id="newProject">
-			<input id="newP" type="text" autocomplete="off" placeholder="Name of the New Project">
-			<button onclick="newProject();">Create</button>
-			<button onclick="closeNewProject();">Cancel</button>
-		</div>
-
-		<div class="modal" id="undeploy">
-			<input id="undeployed" type="text" autocomplete="off" placeholder="Name of Project to Undeploy">
-			<button onclick="undeploy();">Undeploy</button>
-			<button onclick="closeUndeploy();">Cancel</button>
-		</div>
-
-		<div class="modal error" id="passwordMismatchError">
-			<div class="title">Error! The password and the confirmation you entered do not match. Please try again.</div>
-			<button id="closePopUp" onclick="closeModal('passwordMismatchError');">OK</button>
-		</div>
-
-		<div class="modal error" id="userAlreadyExistsError">
-			<div class="title">Error! The user you are trying to add already exists. Please try again.</div>
-			<button id="closePopUp" onclick="closeModal('userAlreadyExistsError');">OK</button>
+		<div class="modal" id="sqlModal">
+			<input id="sqlProject" type="text" autocomplete="off" placeholder="Project Name">
+			<input id="sqlPath" type="text" autocomplete="off" placeholder="SQL Path">
+			<button onclick="commitSQL();">Commit</button>
+			<button onclick="closeSQL();">Cancel</button>
 		</div>
 
 		<div class="modal error" id="emptyFieldError">
@@ -69,15 +31,9 @@
 			<button id="closePopUp" onclick="closeModal('emptyFieldError');">OK</button>
 		</div>
 
-		<div class="modal error" id="userDoesntExistError">
-			<div class="title">Error! The user you are trying to fire doesn't exists. Make sure of the name and try again.</div>
-			<button id="closePopUp" onclick="closeModal('userDoesntExistError');">OK</button>
-		</div>
-
-
 		<div id="overlay"></div>
 
 		<script src="/socket.io/socket.io.js"></script>
-		<script src="./manage.js"></script>
+		<script src="./prog.js"></script>
 	</body>
 </html>
